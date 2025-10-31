@@ -1,7 +1,6 @@
 import React, { useRef, useEffect } from 'react'
 import { useThree } from '@react-three/fiber'
 import * as THREE from 'three'
-import { useControls, folder  } from 'leva'
 
 export default function Lighting({ helper = false }) {
   const keyLightRef = useRef()
@@ -10,23 +9,17 @@ export default function Lighting({ helper = false }) {
   const upLightRef = useRef()
   const { scene } = useThree()
 
-  // Leva controls for all light intensities
-  const { keyLightEnabled, fillLightEnabled, backLightEnabled, upLightEnabled, ambientLightEnabled, keyLightIntensity, fillLightIntensity, backLightIntensity, ambientLightIntensity, upLightIntensity } = useControls('Lighting', {
-    Lights: folder({
-      keyLightEnabled: { value: true, label: 'Key Light' },
-      fillLightEnabled: { value: true, label: 'Fill Light' },
-      backLightEnabled: { value: true, label: 'Back Light' },
-      upLightEnabled: { value: true, label: 'Up Light' },
-      ambientLightEnabled: { value: true, label: 'Ambient Light' },
-    }),
-    Intensities: folder({
-      keyLightIntensity: { value: 2, min: 0, max: 10, step: 0.01, label: 'Key Light Intensity' },
-      fillLightIntensity: { value: 0.5, min: 0, max: 10, step: 0.01, label: 'Fill Light Intensity' },
-      backLightIntensity: { value: 1.5, min: 0, max: 10, step: 0.01, label: 'Back Light Intensity' },
-      upLightIntensity: { value: 2, min: 0, max: 10, step: 0.01, label: 'Up Light Intensity' },
-      ambientLightIntensity: { value: 0.2, min: 0, max: 100, step: 0.01, label: 'Ambient Light Intensity' },
-    }),
-  }, { collapsed: true })
+  // Fixed lighting values (no Leva controls)
+  const keyLightEnabled = true
+  const fillLightEnabled = true
+  const backLightEnabled = true
+  const upLightEnabled = true
+  const ambientLightEnabled = true
+  const keyLightIntensity = 0
+  const fillLightIntensity = 0.53
+  const backLightIntensity = 2.5
+  const upLightIntensity = 1.5
+  const ambientLightIntensity = 0.2
 
   useEffect(() => {
     const helpers = []
