@@ -12,12 +12,16 @@ export default function MusicPlayer({ isPaused, restartKey }) {
   const audioRef = useRef(null)
   const hasRestoredTime = useRef(false) // Track if we've already restored the saved time
   
-  // Absolute URLs for GitHub Pages - Updated Nov 3, 2025
+  // Construct absolute URLs using window.location - Updated Nov 3, 2025
+  const baseUrl = `${window.location.protocol}//${window.location.host}${import.meta.env.BASE_URL}music/`
   const tracks = [
-    'https://shahnab.github.io/poetryinmotion/music/1.mp3',
-    'https://shahnab.github.io/poetryinmotion/music/2.mp3', 
-    'https://shahnab.github.io/poetryinmotion/music/3.mp3'
+    `${baseUrl}1.mp3`,
+    `${baseUrl}2.mp3`, 
+    `${baseUrl}3.mp3`
   ]
+  console.log('MusicPlayer BASE_URL:', import.meta.env.BASE_URL) // Debug log
+  console.log('MusicPlayer window.location:', window.location.href) // Debug log
+  console.log('MusicPlayer constructed baseUrl:', baseUrl) // Debug log
   console.log('MusicPlayer loaded with tracks:', tracks) // Debug log
 
   // Save music state to localStorage whenever it changes
