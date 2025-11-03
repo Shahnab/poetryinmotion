@@ -34,13 +34,20 @@ jobs:
       - name: Build
         run: npm run build
         
+      - name: Copy music files to root
+        run: |
+          mkdir -p ./dist/../deploy
+          cp -r ./dist/* ./dist/../deploy/
+          mkdir -p ./dist/../deploy/music
+          cp -r ./public/music/* ./dist/../deploy/music/
+        
       - name: Setup Pages
         uses: actions/configure-pages@v4
         
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: ./dist
+          path: ./deploy
           
   deploy:
     environment:

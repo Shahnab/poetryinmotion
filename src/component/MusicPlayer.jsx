@@ -12,16 +12,15 @@ export default function MusicPlayer({ isPaused, restartKey }) {
   const audioRef = useRef(null)
   const hasRestoredTime = useRef(false) // Track if we've already restored the saved time
   
-  // Construct absolute URLs using window.location - Updated Nov 3, 2025
-  const baseUrl = `${window.location.protocol}//${window.location.host}${import.meta.env.BASE_URL}music/`
+  // Use the URLs that GitHub Pages actually resolves to - Nov 3, 2025
+  const baseUrl = `${window.location.protocol}//${window.location.host}/music/`
   const tracks = [
     `${baseUrl}1.mp3`,
     `${baseUrl}2.mp3`, 
     `${baseUrl}3.mp3`
   ]
-  console.log('MusicPlayer BASE_URL:', import.meta.env.BASE_URL) // Debug log
   console.log('MusicPlayer window.location:', window.location.href) // Debug log
-  console.log('MusicPlayer constructed baseUrl:', baseUrl) // Debug log
+  console.log('MusicPlayer using baseUrl:', baseUrl) // Debug log
   console.log('MusicPlayer loaded with tracks:', tracks) // Debug log
 
   // Save music state to localStorage whenever it changes
@@ -102,8 +101,8 @@ export default function MusicPlayer({ isPaused, restartKey }) {
         }
       } catch (error) {
         console.error('Failed to load track:', tracks[currentTrack], error)
-        // Try relative path as fallback
-        const fallbackUrl = `/poetryinmotion/music/${currentTrack + 1}.mp3`
+        // Try the URL that GitHub Pages actually resolves to as fallback
+        const fallbackUrl = `/music/${currentTrack + 1}.mp3`
         console.log('Trying fallback URL:', fallbackUrl)
         audio.src = fallbackUrl
         audio.load()
