@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Debug Music Loading</title>
+</head>
+<body>
+    <h1>Debug Music Loading</h1>
+    <button onclick="testFetch()">Test Fetch Music Files</button>
+    <button onclick="testAudio()">Test Audio Element</button>
+    <div id="results"></div>
+
+    <script>
+        async function testFetch() {
+            const results = document.getElementById('results');
+            results.innerHTML = '<h3>Fetch Test Results:</h3>';
+            
+            const urls = [
+                'https://shahnab.github.io/poetryinmotion/music/1.mp3',
+                'https://shahnab.github.io/poetryinmotion/music/2.mp3',
+                'https://shahnab.github.io/poetryinmotion/music/3.mp3'
+            ];
+
+            for (let url of urls) {
+                try {
+                    const response = await fetch(url, { method: 'HEAD' });
+                    results.innerHTML += `<p>${url}: ${response.status} ${response.statusText}</p>`;
+                } catch (error) {
+                    results.innerHTML += `<p>${url}: ERROR - ${error.message}</p>`;
+                }
+            }
+        }
+
+        function testAudio() {
+            const results = document.getElementById('results');
+            results.innerHTML += '<h3>Audio Element Test:</h3>';
+            
+            const audio = new Audio('https://shahnab.github.io/poetryinmotion/music/1.mp3');
+            
+            audio.addEventListener('canplay', () => {
+                results.innerHTML += '<p>Audio can play!</p>';
+            });
+            
+            audio.addEventListener('error', (e) => {
+                results.innerHTML += `<p>Audio error: ${e.message}</p>`;
+            });
+            
+            audio.load();
+        }
+    </script>
+</body>
+</html>

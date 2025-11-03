@@ -53,35 +53,57 @@ export default function MusicPlayer({ isPaused, restartKey }) {
     const audio = audioRef.current
     if (!audio) return
 
-    // Set volume to 100%
-    audio.volume = 1.0
-    
-    // Load and play new track
-    audio.src = tracks[currentTrack]
-    audio.load()
-    
-    // Restore saved time ONLY ONCE on first load
-    const savedTime = localStorage.getItem('musicTime')
-    if (savedTime && hasInteracted && !hasRestoredTime.current) {
-      audio.currentTime = parseFloat(savedTime)
-      hasRestoredTime.current = true // Mark as restored
-      // Clear it after restoring
-      localStorage.removeItem('musicTime')
-    }
-    
-    // Only auto-play if user has interacted
-    if (hasInteracted) {
-      const playPromise = audio.play()
-      if (playPromise !== undefined) {
-        playPromise
-          .then(() => {
-            console.log('Playing track:', currentTrack + 1, tracks[currentTrack])
-          })
-          .catch(err => {
-            console.log('Audio play error:', err)
-          })
+    const loadTrack = async () => {
+      try {
+        // First test if the file exists using fetch
+        console.log('Testing URL:', tracks[currentTrack])
+        const testResponse = await fetch(tracks[currentTrack], { method: 'HEAD' })
+        console.log('Fetch test result:', testResponse.status, testResponse.statusText)
+        
+        if (!testResponse.ok) {
+          throw new Error(`HTTP ${testResponse.status}: ${testResponse.statusText}`)
+        }
+
+        // Set volume to 100%
+        audio.volume = 1.0
+        
+        // Load and play new track
+        audio.src = tracks[currentTrack]
+        audio.load()
+        
+        // Restore saved time ONLY ONCE on first load
+        const savedTime = localStorage.getItem('musicTime')
+        if (savedTime && hasInteracted && !hasRestoredTime.current) {
+          audio.currentTime = parseFloat(savedTime)
+          hasRestoredTime.current = true // Mark as restored
+          // Clear it after restoring
+          localStorage.removeItem('musicTime')
+        }
+        
+        // Only auto-play if user has interacted
+        if (hasInteracted) {
+          const playPromise = audio.play()
+          if (playPromise !== undefined) {
+            playPromise
+              .then(() => {
+                console.log('Playing track:', currentTrack + 1, tracks[currentTrack])
+              })
+              .catch(err => {
+                console.log('Audio play error:', err)
+              })
+          }
+        }
+      } catch (error) {
+        console.error('Failed to load track:', tracks[currentTrack], error)
+        // Try relative path as fallback
+        const fallbackUrl = `/poetryinmotion/music/${currentTrack + 1}.mp3`
+        console.log('Trying fallback URL:', fallbackUrl)
+        audio.src = fallbackUrl
+        audio.load()
       }
     }
+
+    loadTrack()
   }, [currentTrack, tracks, hasInteracted])
 
   // Handle pause/resume from parent component
