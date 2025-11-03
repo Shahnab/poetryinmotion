@@ -11,16 +11,10 @@ export default function MusicPlayer({ isPaused, restartKey }) {
   const audioRef = useRef(null)
   const hasRestoredTime = useRef(false) // Track if we've already restored the saved time
   
-  // Get the correct base URL for GitHub Pages
-  const getAssetUrl = (filename) => {
-    const base = import.meta.env.BASE_URL || '/'
-    return `${base}${filename}`.replace(/\/+/g, '/').replace(/^\//, base.startsWith('/') ? '/' : '')
-  }
-  
   const tracks = [
-    getAssetUrl('music/1.mp3'),
-    getAssetUrl('music/2.mp3'),
-    getAssetUrl('music/3.mp3')
+    '/poetryinmotion/music/1.mp3',
+    '/poetryinmotion/music/2.mp3',
+    '/poetryinmotion/music/3.mp3'
   ]
 
   // Save music state to localStorage whenever it changes
