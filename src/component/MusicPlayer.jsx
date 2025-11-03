@@ -12,9 +12,9 @@ export default function MusicPlayer({ isPaused, restartKey }) {
   const hasRestoredTime = useRef(false) // Track if we've already restored the saved time
   
   const tracks = [
-    '/music/1.mp3',
-    '/music/2.mp3',
-    '/music/3.mp3'
+    './music/1.mp3',
+    './music/2.mp3',
+    './music/3.mp3'
   ]
 
   // Save music state to localStorage whenever it changes
@@ -112,10 +112,25 @@ export default function MusicPlayer({ isPaused, restartKey }) {
   }, [restartKey, hasInteracted])
 
   const startMusic = () => {
+    console.log('User clicked to start music')
     setHasInteracted(true)
+    
     const audio = audioRef.current
     if (audio) {
-      audio.play().catch(err => console.log('Play error:', err))
+      // Force load the audio and start playing
+      audio.src = tracks[currentTrack]
+      audio.load()
+      
+      const playPromise = audio.play()
+      if (playPromise !== undefined) {
+        playPromise
+          .then(() => {
+            console.log('Music started successfully:', tracks[currentTrack])
+          })
+          .catch(err => {
+            console.log('Play error on start:', err)
+          })
+      }
     }
   }
 
