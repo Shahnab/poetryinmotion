@@ -12,15 +12,13 @@ export default function MusicPlayer({ isPaused, restartKey }) {
   const audioRef = useRef(null)
   const hasRestoredTime = useRef(false) // Track if we've already restored the saved time
   
-  // Use the URLs that GitHub Pages actually resolves to - Nov 3, 2025
-  const baseUrl = `${window.location.protocol}//${window.location.host}/music/`
+  // Use GitHub raw files for reliable access - Nov 3, 2025
   const tracks = [
-    `${baseUrl}1.mp3`,
-    `${baseUrl}2.mp3`, 
-    `${baseUrl}3.mp3`
+    'https://raw.githubusercontent.com/Shahnab/poetryinmotion/main/music/1.mp3',
+    'https://raw.githubusercontent.com/Shahnab/poetryinmotion/main/music/2.mp3',
+    'https://raw.githubusercontent.com/Shahnab/poetryinmotion/main/music/3.mp3'
   ]
-  console.log('MusicPlayer window.location:', window.location.href) // Debug log
-  console.log('MusicPlayer using baseUrl:', baseUrl) // Debug log
+  console.log('MusicPlayer using GitHub raw files') // Debug log
   console.log('MusicPlayer loaded with tracks:', tracks) // Debug log
 
   // Save music state to localStorage whenever it changes
@@ -101,8 +99,8 @@ export default function MusicPlayer({ isPaused, restartKey }) {
         }
       } catch (error) {
         console.error('Failed to load track:', tracks[currentTrack], error)
-        // Try the URL that GitHub Pages actually resolves to as fallback
-        const fallbackUrl = `/music/${currentTrack + 1}.mp3`
+        // Try GitHub raw URL as fallback
+        const fallbackUrl = `https://raw.githubusercontent.com/Shahnab/poetryinmotion/main/music/${currentTrack + 1}.mp3`
         console.log('Trying fallback URL:', fallbackUrl)
         audio.src = fallbackUrl
         audio.load()
