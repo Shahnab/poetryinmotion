@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 
 export default function MusicPlayer({ isPaused, restartKey }) {
+  // Cache buster - Nov 3, 2025 - Force deployment update
   const [isMuted, setIsMuted] = useState(false)
   const [hasInteracted, setHasInteracted] = useState(false)
   const [currentTrack, setCurrentTrack] = useState(() => {
@@ -11,11 +12,13 @@ export default function MusicPlayer({ isPaused, restartKey }) {
   const audioRef = useRef(null)
   const hasRestoredTime = useRef(false) // Track if we've already restored the saved time
   
+  // Absolute URLs for GitHub Pages - Updated Nov 3, 2025
   const tracks = [
     'https://shahnab.github.io/poetryinmotion/music/1.mp3',
-    'https://shahnab.github.io/poetryinmotion/music/2.mp3',
+    'https://shahnab.github.io/poetryinmotion/music/2.mp3', 
     'https://shahnab.github.io/poetryinmotion/music/3.mp3'
   ]
+  console.log('MusicPlayer loaded with tracks:', tracks) // Debug log
 
   // Save music state to localStorage whenever it changes
   useEffect(() => {
