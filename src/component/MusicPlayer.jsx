@@ -12,9 +12,9 @@ export default function MusicPlayer({ isPaused, restartKey }) {
   const hasRestoredTime = useRef(false) // Track if we've already restored the saved time
   
   const tracks = [
-    '/poetryinmotion/music/1.mp3',
-    '/poetryinmotion/music/2.mp3',
-    '/poetryinmotion/music/3.mp3'
+    'https://shahnab.github.io/poetryinmotion/music/1.mp3',
+    'https://shahnab.github.io/poetryinmotion/music/2.mp3',
+    'https://shahnab.github.io/poetryinmotion/music/3.mp3'
   ]
 
   // Save music state to localStorage whenever it changes
