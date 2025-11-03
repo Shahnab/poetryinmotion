@@ -22,6 +22,7 @@
     "@types/three": "^0.180.0",
     "@vitejs/plugin-react": "4.1",
     "esbuild": "^0.25.11",
+    "gh-pages": "^6.3.0",
     "glslify": "^7.1.1",
     "raw-loader": "^4.0.2",
     "vite": "^4.5.0",
