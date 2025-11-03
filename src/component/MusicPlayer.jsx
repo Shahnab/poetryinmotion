@@ -12,9 +12,9 @@ export default function MusicPlayer({ isPaused, restartKey }) {
   const hasRestoredTime = useRef(false) // Track if we've already restored the saved time
   
   const tracks = [
-    './music/1.mp3',
-    './music/2.mp3',
-    './music/3.mp3'
+    `${import.meta.env.BASE_URL}music/1.mp3`,
+    `${import.meta.env.BASE_URL}music/2.mp3`,
+    `${import.meta.env.BASE_URL}music/3.mp3`
   ]
 
   // Save music state to localStorage whenever it changes
