@@ -34,12 +34,10 @@ jobs:
       - name: Build
         run: npm run build
         
-      - name: Copy music files to root
+      - name: Setup deployment with music at root level
         run: |
-          mkdir -p ./dist/../deploy
-          cp -r ./dist/* ./dist/../deploy/
-          mkdir -p ./dist/../deploy/music
-          cp -r ./public/music/* ./dist/../deploy/music/
+          mkdir -p ./deploy
+          cp -r ./dist/* ./deploy/
         
       - name: Setup Pages
         uses: actions/configure-pages@v4
