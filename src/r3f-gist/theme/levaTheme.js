@@ -1,0 +1,53 @@
+export const customTheme = {
+  colors: {
+    elevation1: '#1f2023',
+    elevation2: '#282c34',
+    elevation3: '#383c44',
+    accent1: '#61dafb',
+    accent2: '#21252b',
+    accent3: '#ffcc02',
+    highlight1: '#528bff',
+    highlight2: '#c678dd',
+    highlight3: '#56b6c2',
+  },
+  radii: {
+    xs: '2px',
+    sm: '3px',
+    lg: '10px',
+  },
+  space: {
+    xs: '3px',
+    sm: '6px',
+    md: '10px',
+    rowGap: '7px',
+    colGap: '7px',
+  },
+  fonts: {
+    mono: `ui-monospace, SFMono-Regular, "SF Mono", Consolas, "Liberation Mono", Menlo, monospace`,
+  },
+  fontSizes: {
+    root: '11px',
+    toolTip: '11px',
+  },
+  sizes: {
+    rootWidth: '280px',
+    controlWidth: '160px',
+    numberInputMinWidth: '38px',
+    scrubberWidth: '8px',
+    scrubberHeight: '16px',
+    rowHeight: '24px',
+    folderTitleHeight: '20px',
+    checkboxSize: '16px',
+    joystickWidth: '80px',
+    joystickHeight: '80px',
+    colorPickerWidth: '160px',
+    colorPickerHeight: '100px',
+    imagePreviewWidth: '18px',
+    imagePreviewHeight: '18px',
+    monitorHeight: '60px',
+  },
+  shadows: {
+    level1: '0 0 9px 0 #00000088',
+    level2: '0 4px 14px #00000033',
+  },
+}
