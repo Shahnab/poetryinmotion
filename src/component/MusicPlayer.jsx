@@ -185,7 +185,7 @@ export default function MusicPlayer({ isPaused, restartKey }) {
             textAlign: 'center',
             lineHeight: 1.2
           }}>
-            Poise in Motion
+            Poetry in Motion
           </h1>
 
           {/* Click to start button */}
