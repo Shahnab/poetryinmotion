@@ -18,8 +18,30 @@ export default function MusicPlayer({ isPaused, restartKey }) {
     'https://raw.githubusercontent.com/Shahnab/poetryinmotion/main/music/2.mp3',
     'https://raw.githubusercontent.com/Shahnab/poetryinmotion/main/music/3.mp3'
   ]
-  console.log('MusicPlayer using GitHub raw files') // Debug log
-  console.log('MusicPlayer loaded with tracks:', tracks) // Debug log
+  console.log('🎵 MusicPlayer using GitHub raw files') // Debug log
+  console.log('🎵 MusicPlayer loaded with tracks:', tracks) // Debug log
+
+  // Test function to manually check URL accessibility
+  const testUrl = async (url) => {
+    try {
+      console.log('🧪 Manual URL test for:', url)
+      const response = await fetch(url, { method: 'HEAD' })
+      console.log('🧪 Manual test result:', response.status, response.statusText, response.headers.get('content-type'))
+      return response.ok
+    } catch (error) {
+      console.error('🧪 Manual test error:', error)
+      return false
+    }
+  }
+
+  // Test all URLs on component mount
+  useEffect(() => {
+    console.log('🧪 Testing all track URLs...')
+    tracks.forEach(async (url, index) => {
+      const result = await testUrl(url)
+      console.log(`🧪 Track ${index + 1} (${url}): ${result ? '✅ OK' : '❌ FAILED'}`)
+    })
+  }, [])
 
   // Save music state to localStorage whenever it changes
   useEffect(() => {
@@ -60,9 +82,9 @@ export default function MusicPlayer({ isPaused, restartKey }) {
     const loadTrack = async () => {
       try {
         // First test if the file exists using fetch
-        console.log('Testing URL:', tracks[currentTrack])
+        console.log('🔍 Testing URL:', tracks[currentTrack])
         const testResponse = await fetch(tracks[currentTrack], { method: 'HEAD' })
-        console.log('Fetch test result:', testResponse.status, testResponse.statusText)
+        console.log('📊 Fetch test result:', testResponse.status, testResponse.statusText)
         
         if (!testResponse.ok) {
           throw new Error(`HTTP ${testResponse.status}: ${testResponse.statusText}`)
@@ -138,25 +160,55 @@ export default function MusicPlayer({ isPaused, restartKey }) {
   }, [restartKey, hasInteracted])
 
   const startMusic = () => {
-    console.log('User clicked to start music')
+    console.log('🎵 User clicked to start music')
+    console.log('🎵 Current track index:', currentTrack)
+    console.log('🎵 Track URL:', tracks[currentTrack])
+    
     setHasInteracted(true)
     
     const audio = audioRef.current
     if (audio) {
+      console.log('🎵 Audio element found, setting up...')
+      
+      // Add detailed event listeners for debugging
+      const onCanPlay = () => {
+        console.log('✅ Audio can play - file loaded successfully')
+        audio.removeEventListener('canplay', onCanPlay)
+      }
+      
+      const onError = (e) => {
+        console.error('❌ Audio error:', e)
+        console.error('❌ Audio error details:', audio.error)
+        audio.removeEventListener('error', onError)
+      }
+      
+      const onLoadStart = () => {
+        console.log('🔄 Audio load started')
+        audio.removeEventListener('loadstart', onLoadStart)
+      }
+      
+      audio.addEventListener('canplay', onCanPlay)
+      audio.addEventListener('error', onError)
+      audio.addEventListener('loadstart', onLoadStart)
+      
       // Force load the audio and start playing
       audio.src = tracks[currentTrack]
+      console.log('🎵 Audio src set to:', audio.src)
       audio.load()
+      console.log('🎵 Audio load() called')
       
       const playPromise = audio.play()
       if (playPromise !== undefined) {
         playPromise
           .then(() => {
-            console.log('Music started successfully:', tracks[currentTrack])
+            console.log('✅ Music started successfully:', tracks[currentTrack])
           })
           .catch(err => {
-            console.log('Play error on start:', err)
+            console.error('❌ Play error on start:', err)
           })
       }
+    } else {
+      console.error('❌ No audio element found!')
     }
   }
 
