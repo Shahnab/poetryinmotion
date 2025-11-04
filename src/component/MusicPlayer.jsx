@@ -1,8 +1,8 @@
 import { useEffect, useRef, useState } from 'react'
 
 export default function MusicPlayer({ isPaused, restartKey }) {
-  // Cache buster - Nov 4, 2025 - FORCE GITHUB RAW URLS UPDATE
-  const CACHE_BUSTER = '20251104-github-raw'
+  // ULTIMATE CACHE BUSTER - Nov 4, 2025 12:18PM - FORCE NEW LOAD
+  const CACHE_BUSTER = '20251104-121823-FINAL'
   const [isMuted, setIsMuted] = useState(false)
   const [hasInteracted, setHasInteracted] = useState(false)
   const [currentTrack, setCurrentTrack] = useState(() => {
@@ -19,6 +19,7 @@ export default function MusicPlayer({ isPaused, restartKey }) {
     `https://raw.githubusercontent.com/Shahnab/poetryinmotion/main/music/2.mp3?v=${CACHE_BUSTER}`,
     `https://raw.githubusercontent.com/Shahnab/poetryinmotion/main/music/3.mp3?v=${CACHE_BUSTER}`
   ]
+  console.log('🚀🚀🚀 NEW VERSION LOADED - CACHE BUSTER:', CACHE_BUSTER)
   console.log('🎵 MusicPlayer using GitHub raw files') // Debug log
   console.log('🎵 MusicPlayer loaded with tracks:', tracks) // Debug log
 
@@ -276,6 +277,18 @@ export default function MusicPlayer({ isPaused, restartKey }) {
           }}>
             Poise in Motion
           </h1>
+          
+          {/* Version indicator */}
+          <div style={{
+            position: 'absolute',
+            top: '20px',
+            right: '20px',
+            color: 'rgba(255, 255, 255, 0.5)',
+            fontSize: '12px',
+            fontFamily: 'monospace'
+          }}>
+            v{CACHE_BUSTER}
+          </div>
           
           {/* Click to start button */}
           <div style={{
