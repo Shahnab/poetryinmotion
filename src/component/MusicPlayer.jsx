@@ -10,10 +10,11 @@ const tracks = [
   `${BASE_URL}music/3.mp3`,
 ];
 
-const MusicPlayer = () => {
+const MusicPlayer = ({ isPaused, restartKey }) => {
   const audioRef = useRef(null);
   const [currentTrackIndex, setCurrentTrackIndex] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
+  const [hasStarted, setHasStarted] = useState(false);
 
   useEffect(() => {
     const audio = audioRef.current;
@@ -23,21 +24,49 @@ const MusicPlayer = () => {
     }
   }, [currentTrackIndex]);
 
-  const startMusic = () => {
+  // Handle pause state
+  useEffect(() => {
+    if (!audioRef.current || !hasStarted) return;
+
+    if (isPaused) {
+      audioRef.current.pause();
+      setIsPlaying(false);
+    } else {
+      audioRef.current.play().catch(error => {
+        console.error('Resume playback failed:', error);
+      });
+      setIsPlaying(true);
+    }
+  }, [isPaused, hasStarted]);
+
+  // Handle restart
+  useEffect(() => {
+    if (restartKey > 0 && hasStarted) {
+      setCurrentTrackIndex(0);
+      if (audioRef.current) {
+        audioRef.current.currentTime = 0;
+        if (!isPaused) {
+          audioRef.current.play().catch(error => {
+            console.error('Restart playback failed:', error);
+          });
+        }
+      }
+    }
+  }, [restartKey, hasStarted, isPaused]);
+
+  const handleStart = () => {
     if (!audioRef.current) return;
 
-    console.log(`Attempting to play: ${audioRef.current.src}`);
+    console.log(`Starting music: ${audioRef.current.src}`);
     const playPromise = audioRef.current.play();
 
     if (playPromise !== undefined) {
       playPromise.then(() => {
         console.log('Playback started.');
         setIsPlaying(true);
+        setHasStarted(true);
       }).catch(error => {
         console.error('Playback failed:', error);
-        if (error.name === 'NotAllowedError') {
-          console.error('Autoplay was prevented. User interaction is required.');
-        }
       });
     }
   };
@@ -48,6 +77,32 @@ const MusicPlayer = () => {
     setCurrentTrackIndex((prevIndex) => (prevIndex + 1) % tracks.length);
   };
 
+  // Show landing page if not started
+  if (!hasStarted) {
+    return (
+      <div
+        onClick={handleStart}
+        style={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          width: '100%',
+          height: '100%',
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          backgroundColor: 'rgba(0, 0, 0, 0.9)',
+          color: 'white',
+          fontSize: '2rem',
+          cursor: 'pointer',
+          zIndex: 9999,
+        }}
+      >
+        Click to Start
+      </div>
+    );
+  }
+
   return (
     <div>
       <audio 
@@ -56,9 +111,6 @@ const MusicPlayer = () => {
         onError={(e) => console.error('Audio Element Error:', e.target.error)}
         preload="auto"
       ></audio>
-      <button onClick={startMusic} disabled={isPlaying} style={{ position: 'absolute', top: '10px', left: '10px', zIndex: 1000 }}>
-        {isPlaying ? 'Playing...' : 'Play Music'}
-      </button>
     </div>
   );
 };
