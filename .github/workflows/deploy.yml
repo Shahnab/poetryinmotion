@@ -34,19 +34,10 @@ jobs:
       - name: Build
         run: npm run build
         
-      - name: Setup deployment with music at root level
-        run: |
-          mkdir -p ./deploy
-          cp -r ./dist/* ./deploy/
-          cp -r ./music ./deploy/
-        
-      - name: Setup Pages
-        uses: actions/configure-pages@v4
-        
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: ./deploy
+          path: ./dist
           
   deploy:
     environment:
