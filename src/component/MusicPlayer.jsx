@@ -1,7 +1,8 @@
 import { useEffect, useRef, useState } from 'react'
 
 export default function MusicPlayer({ isPaused, restartKey }) {
-  // Cache buster - Nov 3, 2025 - Force deployment update
+  // Cache buster - Nov 4, 2025 - FORCE GITHUB RAW URLS UPDATE
+  const CACHE_BUSTER = '20251104-github-raw'
   const [isMuted, setIsMuted] = useState(false)
   const [hasInteracted, setHasInteracted] = useState(false)
   const [currentTrack, setCurrentTrack] = useState(() => {
@@ -12,11 +13,11 @@ export default function MusicPlayer({ isPaused, restartKey }) {
   const audioRef = useRef(null)
   const hasRestoredTime = useRef(false) // Track if we've already restored the saved time
   
-  // Use GitHub raw files for reliable access - Nov 3, 2025
+  // FORCE GITHUB RAW FILES - CACHE BUSTER Nov 4, 2025
   const tracks = [
-    'https://raw.githubusercontent.com/Shahnab/poetryinmotion/main/music/1.mp3',
-    'https://raw.githubusercontent.com/Shahnab/poetryinmotion/main/music/2.mp3',
-    'https://raw.githubusercontent.com/Shahnab/poetryinmotion/main/music/3.mp3'
+    `https://raw.githubusercontent.com/Shahnab/poetryinmotion/main/music/1.mp3?v=${CACHE_BUSTER}`,
+    `https://raw.githubusercontent.com/Shahnab/poetryinmotion/main/music/2.mp3?v=${CACHE_BUSTER}`,
+    `https://raw.githubusercontent.com/Shahnab/poetryinmotion/main/music/3.mp3?v=${CACHE_BUSTER}`
   ]
   console.log('🎵 MusicPlayer using GitHub raw files') // Debug log
   console.log('🎵 MusicPlayer loaded with tracks:', tracks) // Debug log
